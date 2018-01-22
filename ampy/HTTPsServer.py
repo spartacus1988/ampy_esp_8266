@@ -1,14 +1,62 @@
-import uasyncio
+import uasyncio as asyncio
 from	machine	import	ADC
 import	socket
 import	network
 import	time
 import extract_credential
 import connect
+from machine import UART
 
+
+
+async def sender():
+    swriter = asyncio.StreamWriter(uart, {})
+    while True:
+        await swriter.awrite('Hello uart\n')
+        await asyncio.sleep(5)
+
+async def receiver():
+    sreader = asyncio.StreamReader(uart)
+    while True:
+        res = await sreader.readline()
+        print('Recieved', res)
+
+
+
+async def bar():
+    count = 0
+    while True:
+        count += 1
+        print(count)
+        await asyncio.sleep(1)  # Pause 1s
+
+
+
+
+async def fetch_ip(SSID, password):
+    try:
+    	await Connect.__await__(SSID, password) 
+    	#await sta_if.connect(SSID, password)   
+    except asyncio.TimeoutError:
+        print('Got timeout')
+
+	return Connect.ip	
+
+
+async def wait_for_fetch_ip(SSID, password):
+    await asyncio.wait_for(fetch_ip(SSID, password), 5)
+
+
+
+#instanse UART
+uart = UART(0, 115200)
+uart.init(115200, bits=8, parity=None, stop=1)
+
+#instanse STA
+sta_if = network.WLAN(network.STA_IF)
 
 #instanse loop
-loop = uasyncio.get_event_loop()
+loop = asyncio.get_event_loop()
 
 #instanse class SSIDpass
 SSIDpass = extract_credential.SSIDpass()  
@@ -60,15 +108,23 @@ addr = ('192.168.4.1', 8082)
 
 
 #init socket
-serverSocket = socket.socket(socket.AF_INET,	socket.SOCK_STREAM)
-serverSocket.bind(addr)
-serverSocket.listen(3)
+#serverSocket = socket.socket(socket.AF_INET,	socket.SOCK_STREAM)
+#serverSocket.bind(addr)
+#serverSocket.listen(3)
 print("socket DONE")
 
 
+
+
 #loop forever
-loop.create_task(fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]])) # Schedule ASAP
-loop.create_task(bar())
+loop.create_task(wait_for_fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]])) # Schedule ASAP
+loop.create_task(wait_for_fetch_ip(SSIDpass.SSID[1], SSIDpass.credentials[SSIDpass.SSID[1]])) 
+
+#loop.run_until_complete(wait_for_fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]]))
+
+#loop.create_task(bar())
+loop.create_task(sender())
+loop.create_task(receiver())
 loop.run_forever()
 
 

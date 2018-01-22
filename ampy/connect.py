@@ -1,10 +1,30 @@
 import	network
+import uasyncio as asyncio
 
 class Connect:
 	
 	def __init__(self):
 		self.sta_if = network.WLAN(network.STA_IF)
 		self.ip = '0.0.0.0'
+
+	def __await__(self, SSID, password):
+		self.sta_if.active(True)
+		self.sta_if.connect(SSID, password)
+		count_expected = 0
+		while	not	self.sta_if.isconnected():
+			count_expected += 1		
+			if count_expected > 100:
+				print('Timeout connection was occured')
+				break
+			yield from asyncio.sleep(5) # Other coros get scheduled here		
+		print('network	config:',	self.sta_if.ifconfig())
+		print('ip_sta_is:',	self.sta_if.ifconfig()[0])
+		self.ip = self.sta_if.ifconfig()[0]
+		return self.ip		
+	
+
+	__iter__ = __await__ 		
+		
 
 
 	def connect_to(self, SSID, password):
