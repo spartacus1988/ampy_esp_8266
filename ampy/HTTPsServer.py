@@ -1,3 +1,4 @@
+import uasyncio
 from	machine	import	ADC
 import	socket
 import	network
@@ -6,6 +7,8 @@ import extract_credential
 import connect
 
 
+#instanse loop
+loop = uasyncio.get_event_loop()
 
 #instanse class SSIDpass
 SSIDpass = extract_credential.SSIDpass()  
@@ -63,6 +66,21 @@ serverSocket.listen(3)
 print("socket DONE")
 
 
+#loop forever
+loop.create_task(fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]])) # Schedule ASAP
+loop.create_task(bar())
+loop.run_forever()
+
+
+
+
+
+
+
+
+
+
+
 
 while True:
 	#print("loop")
@@ -91,6 +109,10 @@ while True:
 	#response = sVin
 	cl.send(response)
 	cl.close()
+
+
+
+
 
 	
 

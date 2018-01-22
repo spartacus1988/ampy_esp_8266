@@ -23,6 +23,8 @@ class Connect:
 			print('ip_sta_is:',	self.sta_if.ifconfig()[0])
 			self.ip = self.sta_if.ifconfig()[0]
 			return self.ip
+
+			
 		else:
 			print('already connection was established')
 
