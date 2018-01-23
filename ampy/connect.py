@@ -8,15 +8,21 @@ class Connect:
 		self.ip = '0.0.0.0'
 
 	def __await__(self, SSID, password):
+		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
+		self.sta_if.active(False)
+		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
+
+		await asyncio.sleep(1)
+		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
 		self.sta_if.active(True)
+		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
 		self.sta_if.connect(SSID, password)
-		count_expected = 0
 		while	not	self.sta_if.isconnected():
-			count_expected += 1		
-			if count_expected > 100:
-				print('Timeout connection was occured')
-				break
-			yield from asyncio.sleep(5) # Other coros get scheduled here		
+			#print('count_expected++')
+			print('SSID:' + SSID)
+			#print('password:' + password)
+			#print('self.sta_if.isconnected():' + str(self.sta_if.isconnected()))
+			yield from asyncio.sleep(2) # Other coros get scheduled here	
 		print('network	config:',	self.sta_if.ifconfig())
 		print('ip_sta_is:',	self.sta_if.ifconfig()[0])
 		self.ip = self.sta_if.ifconfig()[0]

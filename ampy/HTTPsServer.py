@@ -20,6 +20,7 @@ async def receiver():
     while True:
         res = await sreader.readline()
         print('Recieved', res)
+        await asyncio.sleep(5)
 
 
 
@@ -28,7 +29,7 @@ async def bar():
     while True:
         count += 1
         print(count)
-        await asyncio.sleep(1)  # Pause 1s
+        await asyncio.sleep(1)  
 
 
 
@@ -44,7 +45,11 @@ async def fetch_ip(SSID, password):
 
 
 async def wait_for_fetch_ip(SSID, password):
-    await asyncio.wait_for(fetch_ip(SSID, password), 5)
+	while True:
+		await asyncio.wait_for(fetch_ip(SSID, password), 10)
+    	await asyncio.sleep(5)
+    	print(SSIDpass.credentials)
+    	print(SSIDpass.SSID)
 
 
 
@@ -118,7 +123,7 @@ print("socket DONE")
 
 #loop forever
 loop.create_task(wait_for_fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]])) # Schedule ASAP
-loop.create_task(wait_for_fetch_ip(SSIDpass.SSID[1], SSIDpass.credentials[SSIDpass.SSID[1]])) 
+#loop.create_task(wait_for_fetch_ip(SSIDpass.SSID[1], SSIDpass.credentials[SSIDpass.SSID[1]])) 
 
 #loop.run_until_complete(wait_for_fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]]))
 

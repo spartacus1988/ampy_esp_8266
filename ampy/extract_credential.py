@@ -15,6 +15,9 @@ class SSIDpass:
         with open(pathfile, 'r') as f:
             for line in f:
                 ssid, pwd = line.strip().split(':')
-                self.SSID.append(ssid)
+                #self.SSID.append(ssid)
                 self.credentials[ssid] = pwd
+
+        for key in self.credentials.keys():
+            self.SSID.append(key)
         pass        
