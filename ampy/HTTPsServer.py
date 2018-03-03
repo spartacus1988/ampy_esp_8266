@@ -12,11 +12,11 @@ async def fetch_ip(SSID, password):
     try:
     	#print(SSID)
     	#print(password)
-    	await Connect.__await__(SSID, password) 
+    	return await Connect.__await__(SSID, password) 
     	#await sta_if.connect(SSID, password)   
     except asyncio.TimeoutError:
         print('Got timeout')
-	return Connect.ip	
+	
 
 
 async def wait_for_fetch_ip(ssid):
@@ -35,8 +35,8 @@ async def wait_for_fetch_ip(ssid):
 
 async def wrapper_wait_for_fetch_ip(SSIDpass):
 	for ssid in SSIDpass.SSID:
-		pending = await wait_for_fetch_ip(ssid)
-		print(str(pending))
+		pending_ip = await wait_for_fetch_ip(ssid)
+		print(str(pending_ip))
 
 
 #instance STA
