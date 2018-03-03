@@ -19,5 +19,9 @@ class SSIDpass:
                 self.credentials[ssid] = pwd
 
         for key in self.credentials.keys():
-            self.SSID.append(key)
-        pass        
+            #self.SSID.append(key)
+            self.SSID.insert(0, key)
+        pass 
+
+        print('SSID[]:' + str(self.SSID)) 
+        print('credentials{}:' + str(self.credentials))        
