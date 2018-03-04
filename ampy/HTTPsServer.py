@@ -34,9 +34,10 @@ async def wait_for_fetch_ip(ssid):
 
 
 async def wrapper_wait_for_fetch_ip(SSIDpass):
-	for ssid in SSIDpass.SSID:
-		pending_ip = await wait_for_fetch_ip(ssid)
-		print(str(pending_ip))
+	while True:
+		for ssid in SSIDpass.SSID:
+			pending_ip = await wait_for_fetch_ip(ssid)
+			print('pending_ip is: ', str(pending_ip))
 
 
 #instance STA
