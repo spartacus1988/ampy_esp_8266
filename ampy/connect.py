@@ -6,15 +6,15 @@ class Connect:
 	def __init__(self):
 		self.sta_if = network.WLAN(network.STA_IF)
 		self.ip = '0.0.0.0'
+		self.sta_if.active(True)
 
 	def __await__(self, SSID, password):
 		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
-		self.sta_if.active(False)
-		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
 
-		await asyncio.sleep(1)
-		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
-		self.sta_if.active(True)
+		#self.sta_if.active(False)
+		#await asyncio.sleep(1)
+		#self.sta_if.active(True)
+
 		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
 		self.sta_if.connect(SSID, password)
 		while	not	self.sta_if.isconnected():
@@ -22,7 +22,7 @@ class Connect:
 			print('SSID:' + SSID)
 			#print('password:' + password)
 			#print('self.sta_if.isconnected():' + str(self.sta_if.isconnected()))
-			yield from asyncio.sleep(2) # Other coros get scheduled here	
+			yield from asyncio.sleep(0.1) # Other coros get scheduled here	
 		#print('network	config:',	self.sta_if.ifconfig())
 		#print('ip_sta_is:',	self.sta_if.ifconfig()[0])
 		self.ip = self.sta_if.ifconfig()[0]
