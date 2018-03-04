@@ -29,7 +29,7 @@ class serverSocketClass:
 			cl_file	= cl.makefile('rwb', 0)
 			while	True:
 				line = cl_file.readline()
-				yield from asyncio.sleep(0.1) 
+				yield from asyncio.sleep(1) 
 				if not line or line == b'\r\n':
 					break
 			self.Dn = self.adc.read()
@@ -51,7 +51,7 @@ class serverSocketClass:
 			#response = sVin
 			cl.send(response)
 			cl.close()
-			yield from asyncio.sleep(0.1) 
+			yield from asyncio.sleep(1) 
 
 
 	__iter__ = __await__ 

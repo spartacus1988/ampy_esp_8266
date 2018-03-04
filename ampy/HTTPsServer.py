@@ -6,6 +6,7 @@ import	time
 import extract_credential
 import connect
 import run_socket
+import client_socket
 
 
 
@@ -39,6 +40,8 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 		for ssid in SSIDpass.SSID:
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
+			
+			await Cl_Socket.__await__() 
 
 
 
@@ -49,45 +52,58 @@ async def wait_for_run_server_socket():
 
 
 
-#instance STA
-#sta_if = network.WLAN(network.STA_IF)
-
-
-#instance loop
-loop = asyncio.get_event_loop()
-
-#instanse class Connect
-Connect = connect.Connect()
-
-#instanse class ServSocket
-ServSocket = run_socket.serverSocketClass()
-
-
- 
-
-#instance class SSIDpass
-SSIDpass = extract_credential.SSIDpass()  
-SSIDpass.extract_credentials_data('/credentials.txt')
-#print(SSIDpass.credentials)
-#print(SSIDpass.SSID)
-#print(SSIDpass.credentials[SSIDpass.SSID[0]])
-
-
-	
-	
 
 
 
-#print("socket DONE")
+if __name__ == '__main__':
+
+	#instance STA
+	#sta_if = network.WLAN(network.STA_IF)
 
 
-loop.create_task(wait_for_run_server_socket())
+	#instance loop
+	loop = asyncio.get_event_loop()
 
-loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
+	#instanse class Connect
+	Connect = connect.Connect()
+
+	#instanse class ServSocket
+	ServSocket = run_socket.serverSocketClass()
+
+	#instanse class Cl_Socket
+	Cl_Socket = client_socket.clientSocketClass()
+
+
+	 
+
+	#instance class SSIDpass
+	SSIDpass = extract_credential.SSIDpass()  
+	SSIDpass.extract_credentials_data('/credentials.txt')
+	#print(SSIDpass.credentials)
+	#print(SSIDpass.SSID)
+	#print(SSIDpass.credentials[SSIDpass.SSID[0]])
+
+
+		
+		
+
+
+
+	#print("socket DONE")
 
 
 
 
-#loop.create_task(bar())
 
-loop.run_forever()
+	loop.create_task(wait_for_run_server_socket())
+
+	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
+
+
+
+
+	#loop.create_task(bar())
+
+	loop.run_forever()
+
+
