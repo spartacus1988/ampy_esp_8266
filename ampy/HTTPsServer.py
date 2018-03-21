@@ -40,7 +40,7 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 		for ssid in SSIDpass.SSID:
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
-			
+
 			await Cl_Socket.__await__() 
 
 
@@ -49,6 +49,8 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 async def wait_for_run_server_socket():
 		while True:
 			await ServSocket.__await__() 
+			#yield from asyncio.sleep(1)
+			await asyncio.sleep(1)
 
 
 
