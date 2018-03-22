@@ -5,8 +5,10 @@ class Connect:
 	
 	def __init__(self):
 		self.sta_if = network.WLAN(network.STA_IF)
+		self.ap_if = network.WLAN(network.AP_IF)
 		self.ip = '0.0.0.0'
 		self.sta_if.active(True)
+		self.ap_if.active(False)
 
 	def __await__(self, SSID, password):
 		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
@@ -14,6 +16,7 @@ class Connect:
 		#self.sta_if.active(False)
 		#await asyncio.sleep(1)
 		#self.sta_if.active(True)
+		self.ap_if.active(False)
 
 		#print('self.sta_if.is_active():' + str(self.sta_if.active()))
 		self.sta_if.connect(SSID, password)

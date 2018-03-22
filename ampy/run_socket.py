@@ -12,7 +12,7 @@ class serverSocketClass:
 		self.ap_if.active(True)
 		self.addr = ('192.168.4.1', 8080)
 		self.serverSocket = socket.socket(socket.AF_INET,	socket.SOCK_STREAM)
-		self.serverSocket.settimeout(5)
+		self.serverSocket.settimeout(15)
 		self.serverSocket.bind(self.addr)
 		self.serverSocket.listen(3)
 		#init ADC	

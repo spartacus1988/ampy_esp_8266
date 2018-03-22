@@ -40,6 +40,7 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 		for ssid in SSIDpass.SSID:
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
+			await asyncio.sleep(30)
 
 
 
@@ -103,8 +104,8 @@ if __name__ == '__main__':
 
 
 
-	loop.create_task(wait_for_run_server_socket())
-	
+	#loop.create_task(wait_for_run_server_socket())
+
 	loop.create_task(wait_for_client_socket())
 
 	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
