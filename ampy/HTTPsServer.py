@@ -11,13 +11,13 @@ import client_socket
 
 
 async def fetch_ip(SSID, password):
-    try:
-    	#print(SSID)
-    	#print(password)
-    	return await Connect.__await__(SSID, password) 
-    	#await sta_if.connect(SSID, password)   
-    except asyncio.TimeoutError:
-        print('Got timeout fetch_ip')
+	try:
+		#print(SSID)
+		#print(password)
+		return await Connect.__await__(SSID, password) 
+		#await sta_if.connect(SSID, password)   
+	except asyncio.TimeoutError:
+		print('Got timeout fetch_ip')
 	
 
 
@@ -28,11 +28,11 @@ async def wait_for_fetch_ip(ssid):
 			return await asyncio.wait_for(fetch_ip(ssid, SSIDpass.credentials[ssid]), 10)
 			#return await asyncio.wait_for(fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]]), 10)
 			#if pending:
-    		#print("pending_2")
-    		#await asyncio.sleep(2)
-    		#print("pending_3")
-    		#print(SSIDpass.credentials)
-    		#print(SSIDpass.SSID)
+			#print("pending_2")
+			#await asyncio.sleep(2)
+			#print("pending_3")
+			#print(SSIDpass.credentials)
+			#print(SSIDpass.SSID)
 
 
 async def wrapper_wait_for_fetch_ip(SSIDpass):
@@ -41,14 +41,20 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
 
-			await Cl_Socket.__await__() 
-
 
 
 
 async def wait_for_run_server_socket():
 		while True:
 			await ServSocket.__await__() 
+			#yield from asyncio.sleep(1)
+			await asyncio.sleep(1)
+
+
+
+async def wait_for_client_socket():
+		while True:
+			await Cl_Socket.__await__()  
 			#yield from asyncio.sleep(1)
 			await asyncio.sleep(1)
 
@@ -98,6 +104,8 @@ if __name__ == '__main__':
 
 
 	loop.create_task(wait_for_run_server_socket())
+	
+	loop.create_task(wait_for_client_socket())
 
 	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 

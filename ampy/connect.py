@@ -22,7 +22,7 @@ class Connect:
 			print('SSID:' + SSID)
 			#print('password:' + password)
 			#print('self.sta_if.isconnected():' + str(self.sta_if.isconnected()))
-			yield from asyncio.sleep(0.1) # Other coros get scheduled here	
+			yield from asyncio.sleep(1) # Other coros get scheduled here	
 		#print('network	config:',	self.sta_if.ifconfig())
 		#print('ip_sta_is:',	self.sta_if.ifconfig()[0])
 		self.ip = self.sta_if.ifconfig()[0]
