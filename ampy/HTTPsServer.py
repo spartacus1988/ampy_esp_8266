@@ -7,7 +7,7 @@ import extract_credential
 import connect
 import run_socket
 import client_socket
-
+import vol_writer
 
 
 async def fetch_ip(SSID, password):
@@ -29,7 +29,9 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
 			request = await Cl_Socket.__await__()  
-			await asyncio.sleep(10)
+			text = V_Writer.__await__(request)
+			print('text_is ' + str(text))
+			await asyncio.sleep(1)
 
 
 async def wait_for_run_server_socket():
@@ -62,6 +64,9 @@ if __name__ == '__main__':
 
 	#instanse class Cl_Socket
 	Cl_Socket = client_socket.clientSocketClass()
+
+	#instanse class voltageWriter
+	V_Writer = vol_writer.voltageWriter()
 
 	#instance class SSIDpass
 	SSIDpass = extract_credential.SSIDpass()  
