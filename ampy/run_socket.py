@@ -12,7 +12,7 @@ class serverSocketClass:
 		self.ap_if.active(True)
 		self.addr = ('192.168.4.1', 8080)
 		self.serverSocket = socket.socket(socket.AF_INET,	socket.SOCK_STREAM)
-		self.serverSocket.settimeout(15)
+		self.serverSocket.settimeout(10)
 		self.serverSocket.bind(self.addr)
 		self.serverSocket.listen(3)
 		#init ADC	
@@ -25,6 +25,8 @@ class serverSocketClass:
 
 	def __await__(self):
 
+		self.ap_if.active(True)
+		await asyncio.sleep(1)
 		while True:
 			try:
 				print("loop socket")
@@ -32,7 +34,7 @@ class serverSocketClass:
 				cl_file	= cl.makefile('rwb', 0)
 				while	True:
 					line = cl_file.readline()
-					yield from asyncio.sleep(1) 
+					#yield from asyncio.sleep(1) 
 					#await asyncio.sleep(1)
 					if not line or line == b'\r\n':
 						break
@@ -56,7 +58,7 @@ class serverSocketClass:
 				cl.send(response)
 				cl.close()
 			except:
-				await asyncio.sleep(1)
+				await asyncio.sleep(5)
 				
 
 	__iter__ = __await__ 

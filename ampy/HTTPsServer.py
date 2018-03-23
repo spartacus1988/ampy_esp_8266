@@ -12,52 +12,37 @@ import client_socket
 
 async def fetch_ip(SSID, password):
 	try:
-		#print(SSID)
-		#print(password)
 		return await Connect.__await__(SSID, password) 
-		#await sta_if.connect(SSID, password)   
 	except asyncio.TimeoutError:
 		print('Got timeout fetch_ip')
 	
 
 
 async def wait_for_fetch_ip(ssid):
-		while True:
-			#print("pending_1")
-			#print(str(pending))  #error
+		while True:		
 			return await asyncio.wait_for(fetch_ip(ssid, SSIDpass.credentials[ssid]), 10)
-			#return await asyncio.wait_for(fetch_ip(SSIDpass.SSID[0], SSIDpass.credentials[SSIDpass.SSID[0]]), 10)
-			#if pending:
-			#print("pending_2")
-			#await asyncio.sleep(2)
-			#print("pending_3")
-			#print(SSIDpass.credentials)
-			#print(SSIDpass.SSID)
-
+	
 
 async def wrapper_wait_for_fetch_ip(SSIDpass):
 	while True:
 		for ssid in SSIDpass.SSID:
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
-			await asyncio.sleep(30)
-
-
+			request = await Cl_Socket.__await__()  
+			await asyncio.sleep(10)
 
 
 async def wait_for_run_server_socket():
 		while True:
 			await ServSocket.__await__() 
-			#yield from asyncio.sleep(1)
 			await asyncio.sleep(1)
 
 
-
-async def wait_for_client_socket():
-		while True:
-			await Cl_Socket.__await__()  
-			#yield from asyncio.sleep(1)
-			await asyncio.sleep(1)
+# async def wait_for_client_socket():
+# 		while True:
+# 			await Cl_Socket.__await__()  
+# 			#yield from asyncio.sleep(1)
+# 			await asyncio.sleep(1)
 
 
 
@@ -65,10 +50,6 @@ async def wait_for_client_socket():
 
 
 if __name__ == '__main__':
-
-	#instance STA
-	#sta_if = network.WLAN(network.STA_IF)
-
 
 	#instance loop
 	loop = asyncio.get_event_loop()
@@ -82,38 +63,17 @@ if __name__ == '__main__':
 	#instanse class Cl_Socket
 	Cl_Socket = client_socket.clientSocketClass()
 
-
-	 
-
 	#instance class SSIDpass
 	SSIDpass = extract_credential.SSIDpass()  
 	SSIDpass.extract_credentials_data('/credentials.txt')
-	#print(SSIDpass.credentials)
-	#print(SSIDpass.SSID)
-	#print(SSIDpass.credentials[SSIDpass.SSID[0]])
-
-
-		
-		
 
 
 
-	#print("socket DONE")
+	loop.create_task(wait_for_run_server_socket())
 
-
-
-
-
-	#loop.create_task(wait_for_run_server_socket())
-
-	loop.create_task(wait_for_client_socket())
+	#loop.create_task(wait_for_client_socket())
 
 	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
-
-
-
-
-	#loop.create_task(bar())
 
 	loop.run_forever()
 
