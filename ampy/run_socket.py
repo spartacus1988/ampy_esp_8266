@@ -26,6 +26,7 @@ class serverSocketClass:
 	def _init_ap_if(self):
 		self.ap_if = network.WLAN(network.AP_IF)
 		self.ap_if.active(True)
+		await asyncio.sleep(1) 
 		self.my_ssid = self.ap_if.config('essid')
 		#self.my_ssid = 'MicroPython-06ab27'
 		print(self.my_ssid)
@@ -48,9 +49,9 @@ class serverSocketClass:
 		network.phy_mode(1)
 
 	def __await__(self, timeout, V_Writer):
-
-		#self.ap_if.active(True)
-		#await asyncio.sleep(1)
+		self.ap_if = network.WLAN(network.AP_IF)
+		self.ap_if.active(True)
+		await asyncio.sleep(1)
 		print("voltages_is " + str(V_Writer.voltages))
 		self.serverSocket.settimeout(timeout)
 		
@@ -72,40 +73,41 @@ class serverSocketClass:
 			#d = self.my_ssid
 				
 
-			# #Prepare the response
-			# response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-			# response += """<!DOCTYPE html>
-			# <html>
-			# <body>
-			# <h3>Voltage on pin A0 =	%sV </h3>
-			# </body>
-			# </html>\n""" % self.sVin
-
-
-
 			#Prepare the response
 			response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
 			response += """<!DOCTYPE html>
 			<html>
-			<body>"""
-
-			print("voltages_is " + str(V_Writer.voltages))
-			#V_Writer.voltages = {'dict': 1, 'dictionary': 2}
-
-			print("self.my_ssid_is " + str(self.my_ssid))
-
-			for key in V_Writer.voltages.keys():
-				if key == self.my_ssid:
-					V_Writer.voltages[key] = self.sVin 
-			if V_Writer.voltages == {}:
-				V_Writer.voltages[self.my_ssid] = self.sVin 
-			
-			for key in V_Writer.voltages.keys():
-				response += """<h3>%s=%s</h3>""" % (key, V_Writer.voltages[key])
-
-			response +="""
+			<body>
+			<h3>Voltage on pin A0 =	%sV </h3>
 			</body>
-			</html>\n""" 
+			</html>\n""" % self.sVin
+
+
+
+			# #Prepare the response
+			# response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
+			# response += """<!DOCTYPE html>
+			# <html>
+			# <body>"""
+
+			# print("voltages_is " + str(V_Writer.voltages))
+			# #V_Writer.voltages = {'dict': 1, 'dictionary': 2}
+
+			# print("self.my_ssid_is " + str(self.my_ssid))
+
+			# for key in V_Writer.voltages.keys():
+			# 	if key == self.my_ssid:
+			# 		V_Writer.voltages[key] = self.sVin 
+			# if V_Writer.voltages == {}:
+			# 	V_Writer.voltages[self.my_ssid] = self.sVin 
+			
+			# for key in V_Writer.voltages.keys():
+			# 	pass
+			# 	#response += """<h3>%s=%s</h3>""" % (key, V_Writer.voltages[key])
+
+			# response +="""
+			# </body>
+			# </html>\n"""
 
 
 

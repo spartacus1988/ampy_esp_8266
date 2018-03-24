@@ -20,7 +20,7 @@ async def fetch_ip(SSID, password):
 
 async def wait_for_fetch_ip(ssid):
 		while True:		
-			return await asyncio.wait_for(fetch_ip(ssid, SSIDpass.credentials[ssid]), 10)
+			return await asyncio.wait_for(fetch_ip(ssid, SSIDpass.credentials[ssid]), 15)
 	
 
 async def wrapper_wait_for_fetch_ip(SSIDpass):
@@ -37,7 +37,7 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 async def wait_for_run_server_socket(timeout):
 		while True:
 			await ServSocket.__await__(timeout, V_Writer) 
-			await asyncio.sleep(1)
+			await asyncio.sleep(15)
 
 
 # async def wait_for_client_socket():
@@ -55,7 +55,7 @@ def client_only():
 
 
 def peer_to_peer():
-	loop.create_task(wait_for_run_server_socket(30))
+	loop.create_task(wait_for_run_server_socket(50))
 	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
 

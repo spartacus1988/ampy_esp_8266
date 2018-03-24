@@ -1,6 +1,6 @@
 #!/bin/sh
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/boot.py  /boot.py
-ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/HTTPsServer.py  /HTTPsServer.py
+ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/HTTPsServer.py  /main.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/connect.py  /connect.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/run_socket.py  /run_socket.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/client_socket.py  /client_socket.py

@@ -25,6 +25,7 @@ class clientSocketClass:
 				return text			
 			except:
 				print('request was failed')
+				return None
 		else:
 			print('NO_IP')
 			return None			
