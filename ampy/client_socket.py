@@ -16,17 +16,18 @@ class clientSocketClass:
 			try:
 				r = requests.get("http://192.168.4.1:8080/")
 				print(r.text)
-				if r.text == 'parameter location was not included in the GET request':
-					print('r.text is None')
-					r.close()
-					return None
+				# if r.text == 'parameter location was not included in the GET request':
+				# 	print('r.text is None')
+				# 	r.close()
+				# 	return None
 				text = r.text
-				r.close()
+				r.close() 
 				return text			
 			except:
 				print('request was failed')
 		else:
-			print('NO_IP')			
+			print('NO_IP')
+			return None			
 		await asyncio.sleep(1) 
 
 

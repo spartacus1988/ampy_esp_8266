@@ -28,15 +28,15 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 		for ssid in SSIDpass.SSID:
 			pending_ip = await wait_for_fetch_ip(ssid)
 			print('pending_ip is: ', str(pending_ip))
-			request = await Cl_Socket.__await__()  
-			text = V_Writer.__await__(request)
-			print('text_is ' + str(text))
+			response = await Cl_Socket.__await__()  
+			voltages = V_Writer.__await__(response)
+			#print('text_is ' + str(text))
 			await asyncio.sleep(1)
 
 
 async def wait_for_run_server_socket(timeout):
 		while True:
-			await ServSocket.__await__(timeout) 
+			await ServSocket.__await__(timeout, V_Writer) 
 			await asyncio.sleep(1)
 
 
@@ -61,6 +61,9 @@ def peer_to_peer():
 
 if __name__ == '__main__':
 
+	#instance global var <dict>
+	voltages = {}
+
 	#instance loop
 	loop = asyncio.get_event_loop()
 
@@ -84,9 +87,9 @@ if __name__ == '__main__':
 
 
 
-	server_only()
+	#server_only()
 	#client_only()
-	#peer_to_peer()
+	peer_to_peer()
 
 
 	#loop.create_task(wait_for_run_server_socket(10))
