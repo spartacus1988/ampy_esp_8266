@@ -55,7 +55,7 @@ def client_only():
 
 
 def peer_to_peer():
-	loop.create_task(wait_for_run_server_socket(10))
+	loop.create_task(wait_for_run_server_socket(30))
 	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
 

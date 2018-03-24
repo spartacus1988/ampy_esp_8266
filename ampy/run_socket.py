@@ -87,11 +87,25 @@ class serverSocketClass:
 			response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
 			response += """<!DOCTYPE html>
 			<html>
-			<body>
-			<h3>%s=%s</h3>
-			<h3>dfsdfsdgsdgsdgsd=%s</h3>
+			<body>"""
+
+			print("voltages_is " + str(V_Writer.voltages))
+			#V_Writer.voltages = {'dict': 1, 'dictionary': 2}
+
+			print("self.my_ssid_is " + str(self.my_ssid))
+
+			for key in V_Writer.voltages.keys():
+				if key == self.my_ssid:
+					V_Writer.voltages[key] = self.sVin 
+			if V_Writer.voltages == {}:
+				V_Writer.voltages[self.my_ssid] = self.sVin 
+			
+			for key in V_Writer.voltages.keys():
+				response += """<h3>%s=%s</h3>""" % (key, V_Writer.voltages[key])
+
+			response +="""
 			</body>
-			</html>\n""" % (self.my_ssid, self.sVin, self.sVin)# self.sVin# 'ssid', '5.0'
+			</html>\n""" 
 
 
 
