@@ -9,7 +9,7 @@ class clientSocketClass:
 	def __init__(self):
 		self.addr = ('192.168.4.1', 8080)
 		self.sta_if = network.WLAN(network.STA_IF)
-		
+
 	def __await__(self):
 		print("client socket")
 		if str(self.sta_if.ifconfig()[0]) != '0.0.0.0':

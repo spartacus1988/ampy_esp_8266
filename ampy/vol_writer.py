@@ -27,10 +27,13 @@ class voltageWriter:
 		#return p
 
 	def __await__(self, html):
-		print("voltage writer")
-		text = self.ure_text(html)
-		print(str(text))
-		return text
+		#print("voltage writer")
+		if html is not None:
+			text = self.ure_text(html)
+			print(str(text))
+			text = text.split('=')
+			print(str(text[1]))
+		return None
 
 		
 

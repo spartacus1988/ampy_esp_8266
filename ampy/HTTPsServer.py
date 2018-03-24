@@ -34,9 +34,9 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 			await asyncio.sleep(1)
 
 
-async def wait_for_run_server_socket():
+async def wait_for_run_server_socket(timeout):
 		while True:
-			await ServSocket.__await__() 
+			await ServSocket.__await__(timeout) 
 			await asyncio.sleep(1)
 
 
@@ -46,9 +46,17 @@ async def wait_for_run_server_socket():
 # 			#yield from asyncio.sleep(1)
 # 			await asyncio.sleep(1)
 
+def server_only():
+	loop.create_task(wait_for_run_server_socket(100))
 
 
+def client_only():
+	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
+
+def peer_to_peer():
+	loop.create_task(wait_for_run_server_socket(10))
+	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
 
 if __name__ == '__main__':
@@ -74,11 +82,15 @@ if __name__ == '__main__':
 
 
 
-	loop.create_task(wait_for_run_server_socket())
 
-	#loop.create_task(wait_for_client_socket())
 
-	loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
+	server_only()
+	#client_only()
+	#peer_to_peer()
+
+
+	#loop.create_task(wait_for_run_server_socket(10))
+	#loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
 	loop.run_forever()
 
