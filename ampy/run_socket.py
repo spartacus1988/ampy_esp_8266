@@ -26,8 +26,6 @@ class serverSocketClass:
 		i = 0
 		for n in self.my_ssid:
 			i += ord(n)
-		#i = len(self.my_ssid)
-		#i = urandom.getrandbits(4)
 		while i!=0:
 			i = i-1
 			channel = urandom.getrandbits(4)
@@ -44,21 +42,7 @@ class serverSocketClass:
 		self.ap_if.active(True)
 		await asyncio.sleep(1) 
 		self.my_ssid = self.ap_if.config('essid')
-		#self.my_ssid = 'MicroPython-06ab27'
-		print(self.my_ssid)
-		# channel = urandom.getrandbits(4)
-		# if channel > 11:
-		# 	channel =  16 - channel
-		# self.my_channel = channel
-		# print("my_channel_is" + self.my_channel)
-
-		#print(self.my_ssid)
-		#print(self.my_channel)
-
 		self.ap_if.config(essid=self.my_ssid, channel=self.my_channel)
-
-		#print(self.my_ssid)
-		#self.ap_if.config(channel=self.my_channel)
 		network.phy_mode(3)
 
 
@@ -85,40 +69,19 @@ class serverSocketClass:
 			self.vin = self.LSB * self.Dn
 			self.sVin = "{:.3f}".format(self.vin)
 					
-			#V_Writer.voltages ={'MicroPython-06ab27': 'micropythoN', 'MicroPython-06ab0a': 'micropythoN'}
-			#Prepare the response
-			# response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-			# cl.send(response)
-			# response = """<!DOCTYPE html><html><body>"""
-			# cl.send(response)
-			# if V_Writer.voltages == {}:
-			# 	V_Writer.voltages[self.my_ssid] = self.sVin
-			# for key in V_Writer.voltages.keys():
-			# 	response = """<h3>%s=%s</h3>""" % (key, V_Writer.voltages[key])
-			# 	cl.send(response)
-			# response ="""</body></html>\n"""
-			# cl.send(response)
-			# cl.close()
-
-
-			# response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
-			# response += """<!DOCTYPE html>
-			# <html>
-			# <body>
-			# <h3>Voltage on pin A0 =	dfsdfsdV </h3>
-			# </body>
-			# </html>\n"""
-			# cl.send(response)
-			# cl.close()
-
-
 
 			cl.write(b'HTTP/1.0 200 OK\r\n'
 				b'Content-type: text/html; charset=utf-8\r\n'
 				b'\r\n')
 			cl.write(b'<!DOCTYPE html><body>\r\n')
 
-			cl.write(b'<h3>Voltage on pin A0 =	dfsdfsdV </h3>\r\n')
+			if V_Writer.voltages == {}:
+				V_Writer.voltages[self.my_ssid] = self.sVin
+			for key in V_Writer.voltages.keys():
+				if key == self.my_ssid:
+					V_Writer.voltages[self.my_ssid] = self.sVin
+				cl.write(b'<h3>%s=%s</h3>\r\n' % (key, V_Writer.voltages[key]))
+
 			cl.write(b'</body></html>\r\n')
 			cl.close()
 

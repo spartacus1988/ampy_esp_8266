@@ -40,12 +40,6 @@ async def wait_for_run_server_socket(timeout):
 			#await asyncio.sleep(5)
 
 
-# async def wait_for_client_socket():
-# 		while True:
-# 			await Cl_Socket.__await__()  
-# 			#yield from asyncio.sleep(1)
-# 			await asyncio.sleep(1)
-
 def server_only():
 	loop.create_task(wait_for_run_server_socket(100))
 
@@ -60,9 +54,6 @@ def peer_to_peer():
 
 
 if __name__ == '__main__':
-
-	#instance global var <dict>
-	voltages = {}
 
 	#instance loop
 	loop = asyncio.get_event_loop()
@@ -85,15 +76,10 @@ if __name__ == '__main__':
 
 
 
-
-
 	server_only()
 	#client_only()
 	#peer_to_peer()
 
-
-	#loop.create_task(wait_for_run_server_socket(10))
-	#loop.create_task(wrapper_wait_for_fetch_ip(SSIDpass))
 
 	loop.run_forever()
 
