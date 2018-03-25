@@ -42,6 +42,15 @@ class serverSocketClass:
 		self.ap_if.active(True)
 		await asyncio.sleep(1) 
 		self.my_ssid = self.ap_if.config('essid')
+		i = 0
+		for n in self.my_ssid:
+			i += ord(n)
+		while i!=0:
+			i = i-1
+			channel = urandom.getrandbits(4)
+		if channel > 11:
+			channel =  16 - channel
+		self.my_channel = channel
 		self.ap_if.config(essid=self.my_ssid, channel=self.my_channel)
 		network.phy_mode(3)
 
@@ -54,6 +63,7 @@ class serverSocketClass:
 		print("voltages_is " + str(V_Writer.voltages))
 		self.serverSocket.settimeout(timeout)
 		print("my_channel_is " + str(self.my_channel))
+		print("my_channel_is " + str(type(self.my_channel)))
 		
 		try:
 			print("loop socket")
@@ -76,6 +86,8 @@ class serverSocketClass:
 			cl.write(b'<!DOCTYPE html><body>\r\n')
 
 			if V_Writer.voltages == {}:
+				V_Writer.voltages[self.my_ssid] = self.sVin
+			if self.my_ssid not in V_Writer.voltages.keys():
 				V_Writer.voltages[self.my_ssid] = self.sVin
 			for key in V_Writer.voltages.keys():
 				if key == self.my_ssid:
