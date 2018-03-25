@@ -15,7 +15,7 @@ class serverSocketClass:
 		self.serverSocket = socket.socket(socket.AF_INET,	socket.SOCK_STREAM)
 		self.serverSocket.settimeout(1)
 		self.serverSocket.bind(self.addr)
-		self.serverSocket.listen(3)
+		self.serverSocket.listen(5)
 		#init ADC	
 		self.LSB = 3.3/1024	
 		self.Dn = None
@@ -40,13 +40,15 @@ class serverSocketClass:
 
 		self.ap_if.config(essid=self.my_ssid, channel=self.my_channel)
 
-
 		#print(self.my_ssid)
-
-
-
 		#self.ap_if.config(channel=self.my_channel)
-		network.phy_mode(1)
+		network.phy_mode(3)
+
+
+
+
+
+
 
 	def __await__(self, timeout, V_Writer):
 		self.ap_if = network.WLAN(network.AP_IF)
@@ -88,7 +90,10 @@ class serverSocketClass:
 			# response = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
 			# response += """<!DOCTYPE html>
 			# <html>
-			# <body>"""
+			# <body>
+			# <h3>Voltage on pin A0 =	dfsdfsdV </h3>
+			# </body>
+			# </html>\n"""
 
 			# print("voltages_is " + str(V_Writer.voltages))
 			# #V_Writer.voltages = {'dict': 1, 'dictionary': 2}
@@ -105,9 +110,7 @@ class serverSocketClass:
 			# 	pass
 			# 	#response += """<h3>%s=%s</h3>""" % (key, V_Writer.voltages[key])
 
-			# response +="""
-			# </body>
-			# </html>\n"""
+			#response +="""</body></html>\n"""
 
 
 
