@@ -37,7 +37,7 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 async def wait_for_run_server_socket(timeout):
 		while True:
 			await ServSocket.__await__(timeout, V_Writer) 
-			await asyncio.sleep(1)
+			#await asyncio.sleep(5)
 
 
 # async def wait_for_client_socket():

@@ -15,6 +15,7 @@ class clientSocketClass:
 		if str(self.sta_if.ifconfig()[0]) != '0.0.0.0':
 			try:
 				r = requests.get("http://192.168.4.1:8080/")
+				await asyncio.sleep(1) 
 				print(r.text)
 				# if r.text == 'parameter location was not included in the GET request':
 				# 	print('r.text is None')
@@ -29,7 +30,7 @@ class clientSocketClass:
 		else:
 			print('NO_IP')
 			return None			
-		await asyncio.sleep(1) 
+		#await asyncio.sleep(1) 
 
 
 	__iter__ = __await__ 
