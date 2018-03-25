@@ -116,9 +116,10 @@ class serverSocketClass:
 			cl.write(b'HTTP/1.0 200 OK\r\n'
 				b'Content-type: text/html; charset=utf-8\r\n'
 				b'\r\n')
-			cl.write(b'<!DOCTYPE html><html><head><title>')
+			cl.write(b'<!DOCTYPE html><body>\r\n')
 
-			clisock.write(b'<html><body><h3>Voltage on pin A0 =	dfsdfsdV </h3></body></html>}\r\n')
+			cl.write(b'<h3>Voltage on pin A0 =	dfsdfsdV </h3>\r\n')
+			cl.write(b'</body></html>\r\n')
 			cl.close()
 
 
