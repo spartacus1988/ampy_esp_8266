@@ -16,6 +16,8 @@ class serverSocketClass:
 		self.serverSocket.settimeout(5)
 		self.serverSocket.bind(self.addr)
 		self.serverSocket.listen(5)
+		self.state_charger = "Unknown"
+		self.state_discharger = "Unknown"
 		#init ADC
 		####3.5 = +40kOhm ### 3.6 = +47kOhm #### 3.2 = default (100k+220k on the board)	
 		self.LSB = 3.52/1024	
@@ -94,6 +96,18 @@ class serverSocketClass:
 				if key == self.my_ssid:
 					V_Writer.voltages[self.my_ssid] = self.sVin
 				cl.write(b'<h3>%s=%s</h3>\r\n' % (key, V_Writer.voltages[key]))
+
+			#need to break OFF state
+			self.state_discharger = "ON"
+			for value in V_Writer.voltages.values():
+				if value < 3.57:
+					self.state_charger = "ON"
+				else:
+					self.state_charger = "OFF"
+				if value < 2.90:
+					self.state_discharger = "OFF"
+			cl.write(b'<h3>%s=%s</h3>\r\n' % ("state_charger", self.state_charger))
+			cl.write(b'<h3>%s=%s</h3>\r\n' % ("state_discharger", self.state_discharger))
 
 			cl.write(b'</body></html>\r\n')
 			cl.close()
