@@ -18,7 +18,7 @@ class serverSocketClass:
 		self.serverSocket.listen(5)
 		#init ADC
 		####3.5 = +40kOhm ### 3.6 = +47kOhm #### 3.2 = default (100k+220k on the board)	
-		self.LSB = 3.5/1024	
+		self.LSB = 3.52/1024	
 		self.Dn = None
 		self.vin = None
 		self.sVin = None

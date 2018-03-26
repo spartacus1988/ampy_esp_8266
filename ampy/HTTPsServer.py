@@ -8,6 +8,7 @@ import connect
 import run_socket
 import client_socket
 import vol_writer
+import ctl_Relay
 
 
 async def fetch_ip(SSID, password):
@@ -30,7 +31,8 @@ async def wrapper_wait_for_fetch_ip(SSIDpass):
 			print('pending_ip is: ', str(pending_ip))
 			response = await Cl_Socket.__await__()  
 			voltages = V_Writer.__await__(response)
-			#print('text_is ' + str(text))
+			state = Ctl_Relay.check_self_state(voltages)
+			print("state_relay_is: " + state)
 			await asyncio.sleep(1)
 
 
@@ -69,6 +71,9 @@ if __name__ == '__main__':
 
 	#instanse class voltageWriter
 	V_Writer = vol_writer.voltageWriter()
+
+	#instanse class ctl_Relay
+	Ctl_Relay = ctl_Relay.control_Relay()
 
 	#instance class SSIDpass
 	SSIDpass = extract_credential.SSIDpass()  

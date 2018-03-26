@@ -6,6 +6,7 @@ ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/run_socket.py  /run_socke
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/client_socket.py  /client_socket.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/extract_credential.py  /extract_credential.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/vol_writer.py  /vol_writer.py
+ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/ctl_Relay.py  /ctl_Relay.py
 ampy -p /dev/ttyUSB0 put $HOME/ampy/ampy_esp_8266/ampy/credentials.txt  /credentials.txt
 
 ampy -p /dev/ttyUSB0 mkdir lib
