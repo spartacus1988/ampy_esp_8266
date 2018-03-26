@@ -24,7 +24,7 @@ class control_Relay:
 		self.vin = self.LSB * self.Dn
 		self.sVin = "{:.3f}".format(self.vin)
 		#init Relay
-		self.relay = Pin(4, Pin.OUT)
+		self.relay = Pin(5, Pin.OUT)
 		self.state_relay = "OFF"
 	
 
@@ -52,37 +52,42 @@ class control_Relay:
 			self.values_voltages.insert(0, value)
 			print("value_is "+ str(value))
 			print("type_of_value_is "+ str(type(value)))
+			print("type_of_self.sVin_is "+ str(type(self.sVin)))
+			print("type_of_self.sVin_is "+ str(type(self.vin)))
 
 		#check if more then max
-		if self.sVin > 3.55:
-			self.relay.high()
+		if self.vin > 3.55:
+			self.relay.on()
 			self.state_relay = "ON"
 			return self.state_relay	
 
 		#calc self.summ	
 		for value in self.values_voltages:
-			self.summ += value
+			self.summ += float(value)
 
 		#calc self.average
 		self.average = self.summ / len(self.values_voltages)
 
 		#check if batteries unbalanced
-		if self.sVin > self.average + 0.1 and self.sVin > 3.10:
-			self.relay.high()
+		if self.vin > self.average + 0.1 and self.vin > 3.10:
+			self.relay.on()
 			self.state_relay = "ON"
 			return self.state_relay
 
 		#check if batteries balanced
-		if self.sVin < self.average + 0.05:
-			self.relay.low()
+		if self.vin < self.average + 0.05:
+			self.relay.off()
 			self.state_relay = "OFF"
 			return self.state_relay
 
 		#this if must be latest
 		#check if less then 3.00
-		if self.sVin < 3.00:
-			self.relay.low()
+		if self.vin < 3.00:
+			self.relay.off()
 			self.state_relay = "OFF"
 			return self.state_relay
+
+
+
 
 

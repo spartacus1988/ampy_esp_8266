@@ -100,11 +100,11 @@ class serverSocketClass:
 			#need to break OFF state
 			self.state_discharger = "ON"
 			for value in V_Writer.voltages.values():
-				if value < 3.57:
+				if float(value) < 3.57:
 					self.state_charger = "ON"
 				else:
 					self.state_charger = "OFF"
-				if value < 2.90:
+				if float(value) < 2.90:
 					self.state_discharger = "OFF"
 			cl.write(b'<h3>%s=%s</h3>\r\n' % ("state_charger", self.state_charger))
 			cl.write(b'<h3>%s=%s</h3>\r\n' % ("state_discharger", self.state_discharger))
