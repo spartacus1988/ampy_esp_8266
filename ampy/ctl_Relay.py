@@ -38,6 +38,15 @@ class control_Relay:
 		#getting voltages
 		self.voltages = voltages
 
+
+		# ############DEBUG#################
+		# self.voltages = {'MicroPython-06ab27': '3.45', 'MicroPython-06ab0a': '3.3'}
+		# self.vin = 3.45
+		# self.sVin = "3.45"
+		# ###########DEBUG#################
+
+
+
 		#add self.sVin
 		if self.my_ssid not in self.voltages.keys():
 			self.voltages[self.my_ssid] = self.sVin
@@ -50,34 +59,39 @@ class control_Relay:
 		#extract values in list
 		for value in self.voltages.values():
 			self.values_voltages.insert(0, value)
-			print("value_is "+ str(value))
-			print("type_of_value_is "+ str(type(value)))
-			print("type_of_self.sVin_is "+ str(type(self.sVin)))
-			print("type_of_self.sVin_is "+ str(type(self.vin)))
+			#print("value_is "+ str(value))
+			#print("type_of_value_is "+ str(type(value)))
+			#print("type_of_self.sVin_is "+ str(type(self.sVin)))
+			#print("type_of_self.sVin_is "+ str(type(self.vin)))
 
 		#check if more then max
 		if self.vin > 3.55:
 			self.relay.on()
 			self.state_relay = "ON"
+			print("relay was ON by self.vin > 3.55")
 			return self.state_relay	
 
-		#calc self.summ	
+		#calc self.summ
+		self.summ = 0
 		for value in self.values_voltages:
 			self.summ += float(value)
 
 		#calc self.average
 		self.average = self.summ / len(self.values_voltages)
+		print("self.average_is " + str(self.average))
 
 		#check if batteries unbalanced
-		if self.vin > self.average + 0.1 and self.vin > 3.10:
+		if self.vin > self.average + 0.05 and self.vin > 3.10:
 			self.relay.on()
 			self.state_relay = "ON"
+			print("relay was ON by self.vin > self.average + 0.05 and self.vin > 3.10")
 			return self.state_relay
 
 		#check if batteries balanced
-		if self.vin < self.average + 0.05:
+		if self.vin < self.average + 0.03: #and self.vin < 3.50:
 			self.relay.off()
 			self.state_relay = "OFF"
+			print("relay was OFF by self.vin < self.average + 0.03")
 			return self.state_relay
 
 		#this if must be latest
@@ -85,7 +99,9 @@ class control_Relay:
 		if self.vin < 3.00:
 			self.relay.off()
 			self.state_relay = "OFF"
+			print("relay was OFF by self.vin < 3.00")
 			return self.state_relay
+		return self.state_relay
 
 
 
