@@ -10,6 +10,11 @@ import client_socket
 import vol_writer
 import ctl_Relay
 
+import webrepl
+webrepl.start()
+
+
+
 
 async def fetch_ip(SSID, password):
 	try:
